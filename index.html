@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>けん玉 決勝スコア（2回チャレンジ）</title>
+  <style>
+    :root{
+      --bg:#0b0b10;
+      --card:#13131b;
+      --card2:#171723;
+      --txt:#f2f2f6;
+      --muted:#b6b6c7;
+      --line:#2a2a3a;
+
+      /* 赤み */
+      --accent:#ff4d5a;
+      --accent2:#ff7a84;
+      --good:#50ff9a;
+      --bad:#ff4d5a;
+      --warn:#ffd166;
+
+      --radius:18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(255,77,90,.22), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(255,122,132,.16), transparent 55%),
+        linear-gradient(180deg, #07070b 0%, #0b0b10 70%, #09090d 100%);
+      color:var(--txt);
+      min-height:100vh;
+      padding:16px;
+    }
+    .wrap{
+      max-width:860px;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      padding-bottom:24px;
+    }
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+    h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:.02em;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:6px;
+      line-height:1.4;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(255,77,90,.12);
+      border:1px solid rgba(255,77,90,.35);
+      color:var(--txt);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    @media (min-width: 820px){
+      .grid{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px 10px 16px;
+      background:linear-gradient(180deg, rgba(255,77,90,.12), transparent 70%);
+      border-bottom:1px solid rgba(255,77,90,.12);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .card .bd{ padding:14px 16px 16px 16px; }
+
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    label{ font-size:13px; color:var(--muted); }
+    select, button{
+      font:inherit;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--txt);
+      padding:10px 12px;
+      outline:none;
+    }
+    select{ min-width:220px; }
+    button{
+      cursor:pointer;
+      transition: transform .05s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+      touch-action:manipulation;
+    }
+    button:active{ transform: translateY(1px); }
+    button.primary{
+      border-color: rgba(255,77,90,.55);
+      background: linear-gradient(180deg, rgba(255,77,90,.22), rgba(255,77,90,.10));
+    }
+    button.ghost{
+      background:transparent;
+      border-color: rgba(255,255,255,.10);
+      color:var(--muted);
+    }
+    button.danger{
+      border-color: rgba(255,77,90,.6);
+      background: rgba(255,77,90,.12);
+      color: var(--txt);
+    }
+    button:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+
+    .big{
+      font-size:18px;
+      line-height:1.25;
+      padding:14px 14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+    }
+    .k{
+      font-weight:700;
+      letter-spacing:.02em;
+    }
+    .muted{ color:var(--muted); }
+
+    .status{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .stat{
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      padding:12px 12px;
+    }
+    .stat .t{ color:var(--muted); font-size:12px; }
+    .stat .v{ font-size:20px; margin-top:6px; font-weight:800; }
+
+    .lamps{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-start;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+    .lamp{
+      width:18px; height:18px; border-radius:6px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.04);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,.25);
+    }
+    .lamp.good{ background: rgba(80,255,154,.35); border-color: rgba(80,255,154,.55); }
+    .lamp.bad{ background: rgba(255,77,90,.35); border-color: rgba(255,77,90,.60); }
+
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      margin-top:12px;
+    }
+    .bar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(255,77,90,.85), rgba(255,122,132,.85));
+      transition: width .25s ease;
+    }
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      max-height:420px;
+      overflow:auto;
+      padding-right:6px;
+    }
+    .item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.02);
+    }
+    .item .name{ font-size:14px; }
+    .item .meta{ font-size:12px; color:var(--muted); }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.18);
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .badge strong{ color:var(--txt); }
+    .footer{
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      margin-top:4px;
+    }
+
+    @keyframes pop {
+      0%{ transform: scale(.98); filter: saturate(1.0); }
+      40%{ transform: scale(1.02); filter: saturate(1.35); }
+      100%{ transform: scale(1.0); filter: saturate(1.0); }
+    }
+    .pop{ animation: pop .18s ease-out; }
+
+    @keyframes shake {
+      0%{ transform: translateX(0); }
+      20%{ transform: translateX(-6px); }
+      40%{ transform: translateX(6px); }
+      60%{ transform: translateX(-4px); }
+      80%{ transform: translateX(4px); }
+      100%{ transform: translateX(0); }
+    }
+    .shake{ animation: shake .22s ease-out; }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>決勝用 けん玉スコア</h1>
+      <div class="sub">
+        クラスを選ぶ → 技を上から順に『必ず2回』チャレンジ。<br/>
+        成功は1回につき1点。失敗は0点。アウト制は無し。
+      </div>
+    </div>
+    <div class="pill" id="savePill">自動保存：ON</div>
+  </header>
+
+  <div class="grid">
+    <section class="card" id="mainCard">
+      <div class="hd">
+        <div class="row">
+          <label for="classSel">クラス</label>
+          <select id="classSel"></select>
+        </div>
+        <div class="row">
+          <button class="ghost" id="btnExport">結果を出力</button>
+          <button class="danger" id="btnReset">リセット</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="big" id="currentBox">
+          <div class="muted">現在の技</div>
+          <div class="k" id="currentTrick">クラスを選択してください</div>
+          <div class="muted" style="margin-top:8px;">
+            進行：<span id="progressText">-</span> ／ 試技：<span id="attemptText">-</span>
+          </div>
+        </div>
+
+        <div class="status">
+          <div class="stat">
+            <div class="t">合計点</div>
+            <div class="v" id="score">0</div>
+          </div>
+          <div class="stat">
+            <div class="t">残り試技</div>
+            <div class="v" id="remaining">-</div>
+          </div>
+        </div>
+
+        <div class="bar" aria-label="progress bar"><div id="barFill"></div></div>
+
+        <div class="lamps" id="lamps" aria-label="attempt lamps"></div>
+
+        <div class="actions">
+          <button class="primary" id="btnSuccess" disabled>成功（+1）</button>
+          <button id="btnFail" disabled>失敗（+0）</button>
+          <button class="ghost" id="btnUndo" disabled>ひとつ戻す</button>
+          <button class="ghost" id="btnNextTrick" disabled>次の技へ</button>
+        </div>
+
+        <div class="footer">操作はすべてローカルで完結。保存は端末内（localStorage）。</div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="hd">
+        <div class="row">
+          <div class="k">技リスト</div>
+          <span class="badge"><strong id="listCount">0</strong> 個</span>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="list" id="list"></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(() => {
+  // --- 技リスト ---
+  const TRICKS = {
+    "F-0/F-1（5段以上）": [
+      "一回転飛行機",
+      "ふりけん〜はねけん",
+      "つるし一回転灯台",
+      "宇宙一周〜地球まわし",
+      "灯台とんぼ返り",
+      "すべり止め極意",
+      "うぐいすの谷渡り",
+      "さか落とし〜灯立",
+      "つるしとめけん",
+      "二回転灯台"
+    ],
+    "F-A（クラスの技レベル／3段〜4段）": [
+      "さか落とし",
+      "地球まわし",
+      "けん先すべり",
+      "うらふりけん",
+      "宇宙一周",
+      "うぐいす〜けん",
+      "つるしとめけん",
+      "はねけん",
+      "一回転飛行機",
+      "一回転灯台"
+    ],
+    "F-B（クラスの技レベル／1級〜2段）": [
+      "けん先すべり",
+      "世界一周",
+      "空中ブランコ",
+      "ヨーロッパ一周",
+      "つるしとめけん",
+      "灯台",
+      "はねけん",
+      "世界一周2回連続",
+      "日本一周",
+      "はやて中皿"
+    ],
+    "F-C（クラスの技レベル／6級〜2級）": [
+      "とめけん",
+      "飛行機",
+      "ふりけん",
+      "日本一周",
+      "ろうそく持ち／前ふり小皿",
+      "野球拳（1ベース）",
+      "手のせうぐいす〜けん",
+      "村一周",
+      "前ふり大皿〜中皿",
+      "ろうそく"
+    ],
+    "チャレンジクラス（級無し〜7級）": [
+      "つるし持ち",
+      "両手キャッチ",
+      "大皿",
+      "小皿",
+      "中皿",
+      "ろうそく",
+      "手のせとめけん",
+      "手のせ大皿〜ジャンプ3回",
+      "前ふり大皿",
+      "手のせうぐいす（3秒静止）",
+      "手のせ灯台（3秒静止）"
+    ]
+  };
+
+  const LS_KEY = "kendama_finals_red_v1";
+
+  const el = (id) => document.getElementById(id);
+
+  const classSel = el("classSel");
+  const list = el("list");
+  const listCount = el("listCount");
+
+  const currentTrick = el("currentTrick");
+  const progressText = el("progressText");
+  const attemptText = el("attemptText");
+  const scoreEl = el("score");
+  const remainingEl = el("remaining");
+  const barFill = el("barFill");
+  const lamps = el("lamps");
+
+  const btnSuccess = el("btnSuccess");
+  const btnFail = el("btnFail");
+  const btnUndo = el("btnUndo");
+  const btnNextTrick = el("btnNextTrick");
+  const btnReset = el("btnReset");
+  const btnExport = el("btnExport");
+
+  const currentBox = el("currentBox");
+
+  const state = {
+    cls: null,
+    idx: 0,
+    attempt: 0,
+    results: [],
+    score: 0
+  };
+
+  function isBlankTrickName(name){
+    return !name || name.includes("空欄");
+  }
+
+  function totalAttemptsForClass(cls){
+    const arr = TRICKS[cls] || [];
+    if(arr.length === 0) return 0;
+    if(arr.every(isBlankTrickName)) return 0;
+    return arr.length * 2;
+  }
+
+  function playableTricksForClass(cls){
+    const arr = TRICKS[cls] || [];
+    return arr.filter(t => !isBlankTrickName(t));
+  }
+
+  function rebuildClassOptions(){
+    classSel.innerHTML = "";
+    Object.keys(TRICKS).forEach((k) => {
+      const opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = k;
+      classSel.appendChild(opt);
+    });
+  }
+
+  function scoreForTrick(trickIndex){
+    const hits = state.results.filter(r => r.trickIndex === trickIndex && r.ok).length;
+    return hits;
+  }
+
+  function rebuildList(){
+    list.innerHTML = "";
+    const tricks = playableTricksForClass(state.cls);
+    listCount.textContent = tricks.length;
+
+    tricks.forEach((t, i) => {
+      const div = document.createElement("div");
+      div.className = "item";
+
+      const left = document.createElement("div");
+      left.innerHTML = `<div class="name">${i+1}. ${escapeHtml(t)}</div><div class="meta">2回チャレンジ</div>`;
+
+      const right = document.createElement("div");
+      const s = scoreForTrick(i);
+      right.innerHTML = `<span class="badge">点：<strong>${s}</strong>/2</span>`;
+
+      div.appendChild(left);
+      div.appendChild(right);
+      list.appendChild(div);
+    });
+  }
+
+  function currentTricks(){
+    return playableTricksForClass(state.cls);
+  }
+
+  function remainingAttempts(){
+    const total = totalAttemptsForClass(state.cls);
+    if(total === 0) return 0;
+    return Math.max(0, total - state.results.length);
+  }
+
+  function updateLamps(){
+    lamps.innerHTML = "";
+    const last = state.results.slice(-12);
+    last.forEach(r => {
+      const d = document.createElement("div");
+      d.className = "lamp " + (r.ok ? "good" : "bad");
+      d.title = (r.ok ? "成功" : "失敗");
+      lamps.appendChild(d);
+    });
+    if(last.length === 0){
+      const hint = document.createElement("div");
+      hint.className = "muted";
+      hint.style.fontSize = "13px";
+      hint.textContent = "ここに直近の試技が表示されます。";
+      lamps.appendChild(hint);
+    }
+  }
+
+  function setButtons(enabled){
+    btnSuccess.disabled = !enabled;
+    btnFail.disabled = !enabled;
+    btnUndo.disabled = true;
+    btnNextTrick.disabled = true;
+    btnReset.disabled = !enabled;
+    btnExport.disabled = !enabled;
+  }
+
+  function updateUI(){
+    const tricks = currentTricks();
+    const totalAttempts = tricks.length * 2;
+
+    const done = state.results.length;
+    const rem = remainingAttempts();
+
+    scoreEl.textContent = String(state.score);
+    remainingEl.textContent = (state.cls ? String(rem) : "-");
+
+    if(!state.cls){
+      currentTrick.textContent = "クラスを選択してください";
+      progressText.textContent = "-";
+      attemptText.textContent = "-";
+      barFill.style.width = "0%";
+      setButtons(false);
+      listCount.textContent = "0";
+      list.innerHTML = `<div class="muted">右上のクラスを選ぶと、技が並びます。</div>`;
+      updateLamps();
+      return;
+    }
+
+    if(tricks.length === 0){
+      currentTrick.textContent = "このクラスの技が未設定です";
+      progressText.textContent = "-";
+      attemptText.textContent = "-";
+      barFill.style.width = "0%";
+      setButtons(false);
+      btnReset.disabled = false;
+      btnExport.disabled = false;
+      updateLamps();
+      return;
+    }
+
+    const finished = done >= totalAttempts;
+
+    if(finished){
+      currentTrick.textContent = "終了：全試技が完了しました";
+      progressText.textContent = `${tricks.length}/${tricks.length}`;
+      attemptText.textContent = `-`;
+      barFill.style.width = "100%";
+      btnSuccess.disabled = true;
+      btnFail.disabled = true;
+      btnNextTrick.disabled = true;
+    }else{
+      const t = tricks[state.idx] ?? "";
+      currentTrick.textContent = t;
+      progressText.textContent = `${state.idx+1}/${tricks.length}`;
+      attemptText.textContent = `${state.attempt+1}/2`;
+      barFill.style.width = `${Math.round((done/totalAttempts)*100)}%`;
+      btnSuccess.disabled = false;
+      btnFail.disabled = false;
+      btnNextTrick.disabled = true;
+    }
+
+    btnUndo.disabled = (state.results.length === 0);
+    btnReset.disabled = false;
+    btnExport.disabled = false;
+
+    rebuildList();
+    updateLamps();
+
+    currentBox.classList.remove("pop");
+    void currentBox.offsetWidth;
+    currentBox.classList.add("pop");
+  }
+
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function save(){
+    try{
+      localStorage.setItem(LS_KEY, JSON.stringify(state));
+    }catch(e){}
+  }
+
+  function load(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw) return false;
+      const obj = JSON.parse(raw);
+      if(!obj || typeof obj !== "object") return false;
+
+      state.cls = obj.cls || null;
+      if(state.cls === "F-0（社会人／5段以上）" || state.cls === "F-1（小学生以上〜大学生／5段以上）"){
+        state.cls = "F-0/F-1（5段以上）";
+      }
+      state.idx = Number.isFinite(obj.idx) ? obj.idx : 0;
+      state.attempt = Number.isFinite(obj.attempt) ? obj.attempt : 0;
+      state.results = Array.isArray(obj.results) ? obj.results : [];
+      state.score = Number.isFinite(obj.score) ? obj.score : 0;
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  function reset(keepClass=false){
+    const cls = keepClass ? state.cls : null;
+    state.cls = cls;
+    state.idx = 0;
+    state.attempt = 0;
+    state.results = [];
+    state.score = 0;
+    save();
+    updateUI();
+  }
+
+  function clampToBounds(){
+    const tricks = currentTricks();
+    if(!state.cls || tricks.length === 0){
+      state.idx = 0; state.attempt = 0; return;
+    }
+    if(state.idx < 0) state.idx = 0;
+    if(state.idx >= tricks.length) state.idx = tricks.length - 1;
+    if(state.attempt < 0) state.attempt = 0;
+    if(state.attempt > 1) state.attempt = 1;
+  }
+
+  function record(ok){
+    const tricks = currentTricks();
+    if(!state.cls || tricks.length === 0) return;
+    if(state.results.length >= tricks.length * 2) return;
+
+    state.results.push({ trickIndex: state.idx, attemptIndex: state.attempt, ok: !!ok, at: Date.now() });
+    if(ok) state.score += 1;
+
+    if(state.attempt === 0){
+      state.attempt = 1;
+    }else{
+      state.attempt = 0;
+      state.idx += 1;
+    }
+
+    clampToBounds();
+    save();
+
+    if(ok){
+      currentBox.classList.remove("shake");
+    }else{
+      currentBox.classList.remove("shake");
+      void currentBox.offsetWidth;
+      currentBox.classList.add("shake");
+    }
+
+    updateUI();
+  }
+
+  function undo(){
+    if(state.results.length === 0) return;
+    const last = state.results.pop();
+    if(last.ok) state.score -= 1;
+
+    state.idx = last.trickIndex;
+    state.attempt = last.attemptIndex;
+    clampToBounds();
+    save();
+    updateUI();
+  }
+
+  function exportText(){
+    const tricks = currentTricks();
+    if(!state.cls || tricks.length === 0){
+      alert("クラス未選択、または技が未設定です。");
+      return;
+    }
+
+    const lines = [];
+    lines.push(`クラス：${state.cls}`);
+    lines.push(`合計点：${state.score}`);
+    lines.push("");
+
+    for(let i=0;i<tricks.length;i++){
+      const a1 = state.results.find(r => r.trickIndex===i && r.attemptIndex===0);
+      const a2 = state.results.find(r => r.trickIndex===i && r.attemptIndex===1);
+      const s = (a1?.ok?1:0) + (a2?.ok?1:0);
+      const mark = (x) => x==null ? "未" : (x ? "○" : "×");
+      lines.push(`${String(i+1).padStart(2,"0")}. ${tricks[i]}`);
+      lines.push(`  1回目:${mark(a1?.ok)}  2回目:${mark(a2?.ok)}  点:${s}/2`);
+    }
+
+    const out = lines.join("\n");
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(out).then(() => {
+        alert("結果をクリップボードにコピーしました。");
+      }).catch(() => {
+        prompt("結果（コピーして使ってください）", out);
+      });
+    }else{
+      prompt("結果（コピーして使ってください）", out);
+    }
+  }
+
+  btnSuccess.addEventListener("click", () => record(true));
+  btnFail.addEventListener("click", () => record(false));
+  btnUndo.addEventListener("click", () => undo());
+
+  btnReset.addEventListener("click", () => {
+    const msg = "現在の記録をリセットします。よろしいですか？";
+    if(confirm(msg)){
+      reset(true);
+    }
+  });
+
+  btnExport.addEventListener("click", exportText);
+
+  classSel.addEventListener("change", () => {
+    state.cls = classSel.value;
+    reset(true);
+    save();
+    updateUI();
+  });
+
+  rebuildClassOptions();
+
+  const loaded = load();
+  if(loaded && state.cls && TRICKS[state.cls]){
+    classSel.value = state.cls;
+    clampToBounds();
+    updateUI();
+  }else{
+    state.cls = classSel.value;
+    reset(true);
+    updateUI();
+  }
+})();
+</script>
+</body>
+</html>
