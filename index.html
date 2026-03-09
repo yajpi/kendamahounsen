@@ -1,19 +1,18 @@
+
 <!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>けん玉 決勝スコア（2回チャレンジ）</title>
+  <title>けん玉 本戦（1対1・4R）</title>
   <style>
     :root{
       --bg:#0b0b10;
-      --card:#13131b;
-      --card2:#171723;
       --txt:#f2f2f6;
       --muted:#b6b6c7;
       --line:#2a2a3a;
 
-      /* 赤み */
+      /* 赤み（決勝カラー） */
       --accent:#ff4d5a;
       --accent2:#ff7a84;
       --good:#50ff9a;
@@ -36,35 +35,14 @@
       min-height:100vh;
       padding:16px;
     }
-    .wrap{
-      max-width:860px;
-      margin:0 auto;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      padding-bottom:24px;
-    }
-    header{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-    }
-    h1{
-      margin:0;
-      font-size:20px;
-      letter-spacing:.02em;
-    }
-    .sub{
-      color:var(--muted);
-      font-size:13px;
-      margin-top:6px;
-      line-height:1.4;
-    }
+
+    .wrap{ max-width:980px; margin:0 auto; display:flex; flex-direction:column; gap:12px; padding-bottom:24px; }
+
+    header{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+    h1{ margin:0; font-size:20px; letter-spacing:.02em; }
+    .sub{ color:var(--muted); font-size:13px; margin-top:6px; line-height:1.45; }
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
+      display:inline-flex; align-items:center; gap:8px;
       background:rgba(255,77,90,.12);
       border:1px solid rgba(255,77,90,.35);
       color:var(--txt);
@@ -73,36 +51,28 @@
       font-size:13px;
       white-space:nowrap;
     }
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media (min-width: 820px){
-      .grid{ grid-template-columns: 1.1fr .9fr; }
-    }
+
+    .grid{ display:grid; grid-template-columns:1fr; gap:12px; }
+    @media (min-width: 920px){ .grid{ grid-template-columns: 1.15fr .85fr; } }
 
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
       border:1px solid var(--line);
-      border-radius:var(--radius);
+      border-radius:18px;
       box-shadow:var(--shadow);
       overflow:hidden;
     }
-    .card .hd{
+    .hd{
       padding:14px 16px 10px 16px;
       background:linear-gradient(180deg, rgba(255,77,90,.12), transparent 70%);
       border-bottom:1px solid rgba(255,77,90,.12);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
+      display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
     }
-    .card .bd{ padding:14px 16px 16px 16px; }
+    .bd{ padding:14px 16px 16px 16px; }
 
     .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     label{ font-size:13px; color:var(--muted); }
-    select, button{
+    input, button{
       font:inherit;
       border-radius:12px;
       border:1px solid var(--line);
@@ -111,10 +81,10 @@
       padding:10px 12px;
       outline:none;
     }
-    select{ min-width:220px; }
+    input{ min-width:180px; }
     button{
       cursor:pointer;
-      transition: transform .05s ease, border-color .15s ease, background .15s ease;
+      transition: transform .05s ease, border-color .15s ease, background .15s ease, filter .15s ease;
       user-select:none;
       touch-action:manipulation;
     }
@@ -123,34 +93,36 @@
       border-color: rgba(255,77,90,.55);
       background: linear-gradient(180deg, rgba(255,77,90,.22), rgba(255,77,90,.10));
     }
+    button.good{
+      border-color: rgba(80,255,154,.55);
+      background: rgba(80,255,154,.12);
+    }
+    button.bad{
+      border-color: rgba(255,77,90,.65);
+      background: rgba(255,77,90,.12);
+    }
     button.ghost{
       background:transparent;
       border-color: rgba(255,255,255,.10);
       color:var(--muted);
     }
     button.danger{
-      border-color: rgba(255,77,90,.6);
+      border-color: rgba(255,77,90,.65);
       background: rgba(255,77,90,.12);
-      color: var(--txt);
     }
-    button:disabled{
-      opacity:.45;
-      cursor:not-allowed;
-    }
+    button:disabled{ opacity:.45; cursor:not-allowed; }
 
     .big{
-      font-size:18px;
-      line-height:1.25;
+      font-size:18px; line-height:1.25;
       padding:14px 14px;
       background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
       border:1px solid rgba(255,255,255,.08);
       border-radius:16px;
     }
-    .k{
-      font-weight:700;
-      letter-spacing:.02em;
-    }
+
+    .k{ font-weight:900; letter-spacing:.02em; }
     .muted{ color:var(--muted); }
+    .mini{ font-size:12px; color:var(--muted); }
 
     .status{
       display:grid;
@@ -165,28 +137,10 @@
       padding:12px 12px;
     }
     .stat .t{ color:var(--muted); font-size:12px; }
-    .stat .v{ font-size:20px; margin-top:6px; font-weight:800; }
-
-    .lamps{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:flex-start;
-      margin-top:14px;
-      flex-wrap:wrap;
-    }
-    .lamp{
-      width:18px; height:18px; border-radius:6px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.04);
-      box-shadow: inset 0 0 0 2px rgba(0,0,0,.25);
-    }
-    .lamp.good{ background: rgba(80,255,154,.35); border-color: rgba(80,255,154,.55); }
-    .lamp.bad{ background: rgba(255,77,90,.35); border-color: rgba(255,77,90,.60); }
+    .stat .v{ font-size:20px; margin-top:6px; font-weight:900; }
 
     .bar{
-      height:10px;
-      border-radius:999px;
+      height:10px; border-radius:999px;
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.10);
       overflow:hidden;
@@ -198,37 +152,11 @@
       background: linear-gradient(90deg, rgba(255,77,90,.85), rgba(255,122,132,.85));
       transition: width .25s ease;
     }
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
 
-    .list{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      max-height:420px;
-      overflow:auto;
-      padding-right:6px;
-    }
-    .item{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.02);
-    }
-    .item .name{ font-size:14px; }
-    .item .meta{ font-size:12px; color:var(--muted); }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
+      display:inline-flex; align-items:center; gap:6px;
       padding:6px 10px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.10);
@@ -238,29 +166,39 @@
       white-space:nowrap;
     }
     .badge strong{ color:var(--txt); }
-    .footer{
-      color:var(--muted);
-      font-size:12px;
-      text-align:center;
-      margin-top:4px;
-    }
 
-    @keyframes pop {
-      0%{ transform: scale(.98); filter: saturate(1.0); }
-      40%{ transform: scale(1.02); filter: saturate(1.35); }
-      100%{ transform: scale(1.0); filter: saturate(1.0); }
+    .log{
+      display:flex; flex-direction:column; gap:8px;
+      max-height:420px; overflow:auto; padding-right:6px;
     }
+    .log .item{
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.02);
+      border-radius:14px;
+      padding:10px 12px;
+      display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+    }
+    .log .item .left{ min-width:0; }
+    .log .item .right{ white-space:nowrap; }
+    .log .item .title{ font-size:13px; }
+    .log .item .desc{ font-size:12px; color:var(--muted); margin-top:4px; line-height:1.35; }
+
+    .footer{ color:var(--muted); font-size:12px; text-align:center; margin-top:6px; }
+
+    @keyframes pop { 0%{ transform: scale(.98); } 40%{ transform: scale(1.02); } 100%{ transform: scale(1.0); } }
     .pop{ animation: pop .18s ease-out; }
-
-    @keyframes shake {
-      0%{ transform: translateX(0); }
-      20%{ transform: translateX(-6px); }
-      40%{ transform: translateX(6px); }
-      60%{ transform: translateX(-4px); }
-      80%{ transform: translateX(4px); }
-      100%{ transform: translateX(0); }
-    }
+    @keyframes shake { 0%{ transform: translateX(0); } 20%{ transform: translateX(-6px); } 40%{ transform: translateX(6px); } 60%{ transform: translateX(-4px); } 80%{ transform: translateX(4px); } 100%{ transform: translateX(0); } }
     .shake{ animation: shake .22s ease-out; }
+
+    .tiebreak{
+      margin-top:12px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      background: rgba(255,255,255,.02);
+      padding:12px 12px;
+    }
+    .tiebreak .ttl{ font-weight:900; }
+    .tiebreak ol{ margin:8px 0 0 20px; color:var(--muted); }
   </style>
 </head>
 
@@ -268,71 +206,120 @@
 <div class="wrap">
   <header>
     <div>
-      <h1>決勝用 けん玉スコア</h1>
+      <h1>本戦 1対1（4ラウンド・2セット）</h1>
       <div class="sub">
-        クラスを選ぶ → 技を上から順に『必ず2回』チャレンジ。<br/>
-        成功は1回につき1点。失敗は0点。アウト制は無し。
+        1Rはランダムに先行・後攻を決定いたします。以後、各ラウンドごとに先行・後攻が入れ替わります。<br>
+        各ラウンドは最大2セットです。片方のみ成功した時点でそのラウンドは終了し、成功した側が1点となります（同時成功の場合は両者が1点です）。2セットとも両者失敗の場合は0点です。<br>
+        逆転の可能性がなくなった時点で試合を終了し、結果を出力いたします。
       </div>
     </div>
-    <div class="pill" id="savePill">自動保存：ON</div>
+    <div class="row">
+      <div class="pill" id="jsPill">JavaScript：未起動</div>
+      <div class="pill" id="savePill">自動保存：ON</div>
+    </div>
   </header>
+
+
+  <div class="card" id="jsWarningCard" style="border-color: rgba(255,77,90,.55);">
+    <div class="bd">
+      <div class="k">操作が反応しない場合</div>
+      <div class="sub" style="margin-top:8px;">
+        この画面でJavaScriptが動作していない可能性があります。<br>
+        Safariの設定でJavaScriptが有効になっているか、またはGitHubのファイル閲覧画面ではなくGitHub Pages等で開いているかをご確認ください。
+      </div>
+    </div>
+  </div>
+
 
   <div class="grid">
     <section class="card" id="mainCard">
       <div class="hd">
         <div class="row">
-          <label for="classSel">クラス</label>
-          <select id="classSel"></select>
+          <label>選手</label>
+          <input id="p1Name" placeholder="（未入力でOK）A" />
+          <input id="p2Name" placeholder="（未入力でOK）B" />
+          <button class="primary" id="btnStart">開始（1Rコイントス）</button>
         </div>
         <div class="row">
           <button class="ghost" id="btnExport">結果を出力</button>
+          <button class="ghost" id="btnUndo">ひとつ戻す</button>
           <button class="danger" id="btnReset">リセット</button>
         </div>
       </div>
       <div class="bd">
         <div class="big" id="currentBox">
-          <div class="muted">現在の技</div>
-          <div class="k" id="currentTrick">クラスを選択してください</div>
+          <div class="muted">現在</div>
+          <div class="k" id="headline">開始を押してください</div>
           <div class="muted" style="margin-top:8px;">
-            進行：<span id="progressText">-</span> ／ 試技：<span id="attemptText">-</span>
+            ラウンド：<span id="roundText">-</span> ／ セット：<span id="setText">-</span> ／ 手番：<span id="turnText">-</span>
           </div>
+          <div class="mini" id="orderNote" style="margin-top:6px;"></div>
+          <div class="mini" id="trickNote" style="margin-top:6px;"></div>
         </div>
 
         <div class="status">
           <div class="stat">
-            <div class="t">合計点</div>
-            <div class="v" id="score">0</div>
+            <div class="t" id="p1Label">A</div>
+            <div class="v" id="p1Score">0</div>
+            <div class="mini" id="p1Role">-</div>
           </div>
           <div class="stat">
-            <div class="t">残り試技</div>
-            <div class="v" id="remaining">-</div>
+            <div class="t" id="p2Label">B</div>
+            <div class="v" id="p2Score">0</div>
+            <div class="mini" id="p2Role">-</div>
           </div>
         </div>
 
-        <div class="bar" aria-label="progress bar"><div id="barFill"></div></div>
-
-        <div class="lamps" id="lamps" aria-label="attempt lamps"></div>
+        <div class="bar" aria-label="round progress"><div id="barFill"></div></div>
 
         <div class="actions">
-          <button class="primary" id="btnSuccess" disabled>成功（+1）</button>
-          <button id="btnFail" disabled>失敗（+0）</button>
-          <button class="ghost" id="btnUndo" disabled>ひとつ戻す</button>
-          <button class="ghost" id="btnNextTrick" disabled>次の技へ</button>
+          <button class="good" id="btnSuccess" disabled>成功</button>
+          <button class="bad" id="btnFail" disabled>失敗</button>
+          <button class="ghost" id="btnNext" disabled>次のラウンドへ</button>
+          <button class="primary" id="btnFinish" disabled>試合終了（確定）</button>
         </div>
 
-        <div class="footer">操作はすべてローカルで完結。保存は端末内（localStorage）。</div>
+        <div class="tiebreak" id="tiebreakBox" style="display:none;">
+          <div class="ttl">同点のため『タイム競技』へ</div>
+          <div class="mini" style="margin-top:6px;">技はこの順。勝者を選んで確定する。</div>
+          <ol>
+            <li>世界一周</li>
+            <li>ふりけん</li>
+            <li>飛行機</li>
+          </ol>
+          <div class="actions" style="margin-top:10px;">
+            <button class="good" id="btnTBP1">A 勝利</button>
+            <button class="good" id="btnTBP2">B 勝利</button>
+          </div>
+        </div>
+
+        <div class="footer">保存先は端末内（localStorage）です。ブラウザの更新や誤操作があっても、復旧しやすい設計です。</div>
       </div>
     </section>
 
     <aside class="card">
       <div class="hd">
         <div class="row">
-          <div class="k">技リスト</div>
-          <span class="badge"><strong id="listCount">0</strong> 個</span>
+          <div class="k">ログ</div>
+          <span class="badge">残りR：<strong id="remainRounds">-</strong></span>
+          <span class="badge">逆転可能：<strong id="comeback">-</strong></span>
         </div>
       </div>
       <div class="bd">
-        <div class="list" id="list"></div>
+        
+        <div class="tiebreak" style="margin-bottom:12px;">
+          <div class="ttl">本戦の技（4R分・ランダム）</div>
+          <div class="mini" style="margin-top:6px;">開始時に4つを抽選し、R1〜R4へ割り当てます。</div>
+          <div class="actions" style="margin-top:10px;">
+            <button class="ghost" id="btnReshuffle" disabled>技を引き直す</button>
+          </div>
+          <div class="mini" style="margin-top:10px;">技プール（1行=1技 / ここを書き換えると抽選対象が変わる）</div>
+          <textarea id="poolBox" style="width:100%;min-height:140px;margin-top:8px;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.02);color:var(--txt);padding:10px 12px;resize:vertical;"></textarea>
+          <div class="mini" style="margin-top:8px;">選ばれた4技</div>
+          <ol id="pickedList" style="margin:8px 0 0 20px;color:var(--muted);"></ol>
+        </div>
+
+        <div class="log" id="log"></div>
       </div>
     </aside>
   </div>
@@ -340,259 +327,241 @@
 
 <script>
 (() => {
-  // --- 技リスト ---
-  const TRICKS = {
-    "F-0/F-1（5段以上）": [
-      "一回転飛行機",
-      "ふりけん〜はねけん",
-      "つるし一回転灯台",
-      "宇宙一周〜地球まわし",
-      "灯台とんぼ返り",
-      "すべり止め極意",
-      "うぐいすの谷渡り",
-      "さか落とし〜灯立",
-      "つるしとめけん",
-      "二回転灯台"
-    ],
-    "F-A（クラスの技レベル／3段〜4段）": [
-      "さか落とし",
-      "地球まわし",
-      "けん先すべり",
-      "うらふりけん",
-      "宇宙一周",
-      "うぐいす〜けん",
-      "つるしとめけん",
-      "はねけん",
-      "一回転飛行機",
-      "一回転灯台"
-    ],
-    "F-B（クラスの技レベル／1級〜2段）": [
-      "けん先すべり",
-      "世界一周",
-      "空中ブランコ",
-      "ヨーロッパ一周",
-      "つるしとめけん",
-      "灯台",
-      "はねけん",
-      "世界一周2回連続",
-      "日本一周",
-      "はやて中皿"
-    ],
-    "F-C（クラスの技レベル／6級〜2級）": [
-      "とめけん",
-      "飛行機",
-      "ふりけん",
-      "日本一周",
-      "ろうそく持ち／前ふり小皿",
-      "野球拳（1ベース）",
-      "手のせうぐいす〜けん",
-      "村一周",
-      "前ふり大皿〜中皿",
-      "ろうそく"
-    ],
-    "チャレンジクラス（級無し〜7級）": [
-      "つるし持ち",
-      "両手キャッチ",
-      "大皿",
-      "小皿",
-      "中皿",
-      "ろうそく",
-      "手のせとめけん",
-      "手のせ大皿〜ジャンプ3回",
-      "前ふり大皿",
-      "手のせうぐいす（3秒静止）",
-      "手のせ灯台（3秒静止）"
-    ]
-  };
+  const LS_KEY = "kendama_match_1v1_4r_v2";
 
-  const LS_KEY = "kendama_finals_red_v1";
+  const DEFAULT_POOL = [
+    "世界一周","ふりけん","飛行機","日本一周","ヨーロッパ一周","空中ブランコ","村一周",
+    "灯台","はねけん","うらふりけん","地球まわし","宇宙一周","けん先すべり","とめけん",
+    "ろうそく","つるしとめけん","一回転飛行機","一回転灯台","はやて中皿"
+  ];
+
 
   const el = (id) => document.getElementById(id);
 
-  const classSel = el("classSel");
-  const list = el("list");
-  const listCount = el("listCount");
+  const p1Name = el("p1Name");
+  const p2Name = el("p2Name");
 
-  const currentTrick = el("currentTrick");
-  const progressText = el("progressText");
-  const attemptText = el("attemptText");
-  const scoreEl = el("score");
-  const remainingEl = el("remaining");
-  const barFill = el("barFill");
-  const lamps = el("lamps");
-
+  const btnStart = el("btnStart");
   const btnSuccess = el("btnSuccess");
   const btnFail = el("btnFail");
+  const btnNext = el("btnNext");
+  const btnFinish = el("btnFinish");
   const btnUndo = el("btnUndo");
-  const btnNextTrick = el("btnNextTrick");
   const btnReset = el("btnReset");
   const btnExport = el("btnExport");
 
+  const headline = el("headline");
+  const roundText = el("roundText");
+  const setText = el("setText");
+  const turnText = el("turnText");
+  const orderNote = el("orderNote");
+  const trickNote = el("trickNote");
+
+  const p1Label = el("p1Label");
+  const p2Label = el("p2Label");
+  const p1ScoreEl = el("p1Score");
+  const p2ScoreEl = el("p2Score");
+  const p1Role = el("p1Role");
+  const p2Role = el("p2Role");
+
+  const barFill = el("barFill");
+  const logEl = el("log");
+  const poolBox = el("poolBox");
+  const pickedList = el("pickedList");
+  const btnReshuffle = el("btnReshuffle");
+  const remainRoundsEl = el("remainRounds");
+  const comebackEl = el("comeback");
+
   const currentBox = el("currentBox");
+  const tiebreakBox = el("tiebreakBox");
+  const btnTBP1 = el("btnTBP1");
+  const btnTBP2 = el("btnTBP2");
+
+  const jsPill = el("jsPill");
+  const jsWarningCard = el("jsWarningCard");
+
 
   const state = {
-    cls: null,
-    idx: 0,
-    attempt: 0,
-    results: [],
-    score: 0
+    started: false,
+    finished: false,
+    tiebreak: false,
+
+    names: { p1: "A", p2: "B" },
+
+    round: 1,
+    set: 1,
+    turn: 0,      // 0:先行 1:後攻
+    r1Starter: null, // 1 or 2
+
+    poolText: "",
+    roundTricks: [], // length 4, R1..R4
+
+    scores: { p1: 0, p2: 0 },
+    curr: { p1: null, p2: null },
+
+    history: [],
+    log: [],
+
+    winner: null,
+    endedReason: "",
+
+    _justResolvedRound: false,
+    _canFinish: false
   };
 
-  function isBlankTrickName(name){
-    return !name || name.includes("空欄");
+  function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
+
+  function save(){
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
+  }
+  function load(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw) return false;
+      const obj = JSON.parse(raw);
+      if(!obj || typeof obj !== "object") return false;
+      Object.assign(state, obj);
+      return true;
+    }catch(e){ return false; }
   }
 
-  function totalAttemptsForClass(cls){
-    const arr = TRICKS[cls] || [];
-    if(arr.length === 0) return 0;
-    if(arr.every(isBlankTrickName)) return 0;
-    return arr.length * 2;
+  function playerIdToKey(id){ return id === 1 ? "p1" : "p2"; }
+  function otherId(id){ return id === 1 ? 2 : 1; }
+
+  function currentStarterId(){
+    if(!state.r1Starter) return null;
+    return (state.round % 2 === 1) ? state.r1Starter : otherId(state.r1Starter);
+  }
+  function roleForPlayerKey(key){
+    const starter = currentStarterId();
+    if(!starter) return "-";
+    const starterKey = playerIdToKey(starter);
+    return (key === starterKey) ? "先行" : "後攻";
+  }
+  function turnPlayerKey(){
+    const starter = currentStarterId();
+    if(!starter) return null;
+    const starterKey = playerIdToKey(starter);
+    const followerKey = (starterKey === "p1") ? "p2" : "p1";
+    return (state.turn === 0) ? starterKey : followerKey;
   }
 
-  function playableTricksForClass(cls){
-    const arr = TRICKS[cls] || [];
-    return arr.filter(t => !isBlankTrickName(t));
+  function countResolvedRounds(){
+    return state.log.filter(x => x.type === "roundEnd").length;
+  }
+  function remainingRounds(){
+    return Math.max(0, 4 - countResolvedRounds());
+  }
+  function maxPossiblePointsInRemainingRounds(n){
+    // 1ラウンドで各選手が得られる最大は1点（勝ち or 同点）
+    return n * 1;
+  }
+  function comebackPossible(){
+    if(!state.started) return true;
+    if(state.finished) return false;
+    const rem = remainingRounds();
+    const p1 = state.scores.p1;
+    const p2 = state.scores.p2;
+    const lead = Math.max(p1,p2);
+    const trail = Math.min(p1,p2);
+    const trailMax = trail + maxPossiblePointsInRemainingRounds(rem);
+    return trailMax >= lead;
   }
 
-  function rebuildClassOptions(){
-    classSel.innerHTML = "";
-    Object.keys(TRICKS).forEach((k) => {
-      const opt = document.createElement("option");
-      opt.value = k;
-      opt.textContent = k;
-      classSel.appendChild(opt);
+  function setButtons(){
+    const inPlay = state.started && !state.finished && !state.tiebreak;
+
+    btnSuccess.disabled = !inPlay;
+    btnFail.disabled = !inPlay;
+
+    btnUndo.disabled = (state.history.length === 0);
+    btnStart.disabled = false;
+
+    btnNext.disabled = !(inPlay && state._justResolvedRound && !state._canFinish);
+    btnFinish.disabled = !(state.started && !state.finished && state._canFinish);
+
+    const canReshuffle = state.started && !state.finished && !state.tiebreak && state.log.filter(x=>x.type==="attempt").length===0 && state.round===1 && state.set===1 && state.turn===0;
+    btnReshuffle.disabled = !canReshuffle;
+
+    btnTBP1.textContent = `${state.names.p1} 勝利`;
+    btnTBP2.textContent = `${state.names.p2} 勝利`;
+  }
+
+  function pushHistory(){
+    state.history.push(clone(state));
+    if(state.history.length > 60) state.history.shift();
+  }
+  function undo(){
+    if(state.history.length === 0) return;
+    const prev = state.history.pop();
+    Object.assign(state, prev);
+    save();
+    updateUI();
+  }
+
+  function addLog(title, desc, right="", type="info"){
+    state.log.unshift({ title, desc, right, at: Date.now(), type });
+    if(state.log.length > 80) state.log.pop();
+  }
+
+
+  function parsePool(text){
+    return String(text || "")
+      .split(/\r?\n/)
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+  }
+
+  function pick4FromPool(pool){
+    // unique 4
+    const uniq = Array.from(new Set(pool));
+    if(uniq.length < 4){
+      return null;
+    }
+    // Fisher-Yates shuffle copy
+    const a = uniq.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a.slice(0,4);
+  }
+
+  function ensurePoolUI(){
+    // init textarea if empty
+    if(!state.poolText){
+      state.poolText = DEFAULT_POOL.join("\n");
+    }
+    poolBox.value = state.poolText;
+  }
+
+  function renderPicked(){
+    pickedList.innerHTML = "";
+    const picks = Array.isArray(state.roundTricks) ? state.roundTricks : [];
+    picks.forEach((t, i) => {
+      const li = document.createElement("li");
+      li.textContent = `R${i+1}: ${t}`;
+      pickedList.appendChild(li);
     });
-  }
-
-  function scoreForTrick(trickIndex){
-    const hits = state.results.filter(r => r.trickIndex === trickIndex && r.ok).length;
-    return hits;
-  }
-
-  function rebuildList(){
-    list.innerHTML = "";
-    const tricks = playableTricksForClass(state.cls);
-    listCount.textContent = tricks.length;
-
-    tricks.forEach((t, i) => {
-      const div = document.createElement("div");
-      div.className = "item";
-
-      const left = document.createElement("div");
-      left.innerHTML = `<div class="name">${i+1}. ${escapeHtml(t)}</div><div class="meta">2回チャレンジ</div>`;
-
-      const right = document.createElement("div");
-      const s = scoreForTrick(i);
-      right.innerHTML = `<span class="badge">点：<strong>${s}</strong>/2</span>`;
-
-      div.appendChild(left);
-      div.appendChild(right);
-      list.appendChild(div);
-    });
-  }
-
-  function currentTricks(){
-    return playableTricksForClass(state.cls);
-  }
-
-  function remainingAttempts(){
-    const total = totalAttemptsForClass(state.cls);
-    if(total === 0) return 0;
-    return Math.max(0, total - state.results.length);
-  }
-
-  function updateLamps(){
-    lamps.innerHTML = "";
-    const last = state.results.slice(-12);
-    last.forEach(r => {
-      const d = document.createElement("div");
-      d.className = "lamp " + (r.ok ? "good" : "bad");
-      d.title = (r.ok ? "成功" : "失敗");
-      lamps.appendChild(d);
-    });
-    if(last.length === 0){
-      const hint = document.createElement("div");
-      hint.className = "muted";
-      hint.style.fontSize = "13px";
-      hint.textContent = "ここに直近の試技が表示されます。";
-      lamps.appendChild(hint);
+    if(picks.length === 0){
+      const li = document.createElement("li");
+      li.textContent = "未抽選";
+      pickedList.appendChild(li);
     }
   }
 
-  function setButtons(enabled){
-    btnSuccess.disabled = !enabled;
-    btnFail.disabled = !enabled;
-    btnUndo.disabled = true;
-    btnNextTrick.disabled = true;
-    btnReset.disabled = !enabled;
-    btnExport.disabled = !enabled;
-  }
-
-  function updateUI(){
-    const tricks = currentTricks();
-    const totalAttempts = tricks.length * 2;
-
-    const done = state.results.length;
-    const rem = remainingAttempts();
-
-    scoreEl.textContent = String(state.score);
-    remainingEl.textContent = (state.cls ? String(rem) : "-");
-
-    if(!state.cls){
-      currentTrick.textContent = "クラスを選択してください";
-      progressText.textContent = "-";
-      attemptText.textContent = "-";
-      barFill.style.width = "0%";
-      setButtons(false);
-      listCount.textContent = "0";
-      list.innerHTML = `<div class="muted">右上のクラスを選ぶと、技が並びます。</div>`;
-      updateLamps();
-      return;
+  function reshuffleTricks(){
+    const pool = parsePool(poolBox.value);
+    const picks = pick4FromPool(pool);
+    if(!picks){
+      alert("技プールの行数が4つ未満です。4行以上にしてから、もう一度お試しください。");
+      return false;
     }
-
-    if(tricks.length === 0){
-      currentTrick.textContent = "このクラスの技が未設定です";
-      progressText.textContent = "-";
-      attemptText.textContent = "-";
-      barFill.style.width = "0%";
-      setButtons(false);
-      btnReset.disabled = false;
-      btnExport.disabled = false;
-      updateLamps();
-      return;
-    }
-
-    const finished = done >= totalAttempts;
-
-    if(finished){
-      currentTrick.textContent = "終了：全試技が完了しました";
-      progressText.textContent = `${tricks.length}/${tricks.length}`;
-      attemptText.textContent = `-`;
-      barFill.style.width = "100%";
-      btnSuccess.disabled = true;
-      btnFail.disabled = true;
-      btnNextTrick.disabled = true;
-    }else{
-      const t = tricks[state.idx] ?? "";
-      currentTrick.textContent = t;
-      progressText.textContent = `${state.idx+1}/${tricks.length}`;
-      attemptText.textContent = `${state.attempt+1}/2`;
-      barFill.style.width = `${Math.round((done/totalAttempts)*100)}%`;
-      btnSuccess.disabled = false;
-      btnFail.disabled = false;
-      btnNextTrick.disabled = true;
-    }
-
-    btnUndo.disabled = (state.results.length === 0);
-    btnReset.disabled = false;
-    btnExport.disabled = false;
-
-    rebuildList();
-    updateLamps();
-
-    currentBox.classList.remove("pop");
-    void currentBox.offsetWidth;
-    currentBox.classList.add("pop");
+    state.poolText = poolBox.value;
+    state.roundTricks = picks;
+    addLog("技抽選", `抽選：${picks.map((t,i)=>"R"+(i+1)+"="+t).join(" / ")}`, "", "info");
+    save();
+    return true;
   }
 
   function escapeHtml(s){
@@ -604,161 +573,402 @@
       .replaceAll("'","&#039;");
   }
 
-  function save(){
-    try{
-      localStorage.setItem(LS_KEY, JSON.stringify(state));
-    }catch(e){}
-  }
-
-  function load(){
-    try{
-      const raw = localStorage.getItem(LS_KEY);
-      if(!raw) return false;
-      const obj = JSON.parse(raw);
-      if(!obj || typeof obj !== "object") return false;
-
-      state.cls = obj.cls || null;
-      if(state.cls === "F-0（社会人／5段以上）" || state.cls === "F-1（小学生以上〜大学生／5段以上）"){
-        state.cls = "F-0/F-1（5段以上）";
-      }
-      state.idx = Number.isFinite(obj.idx) ? obj.idx : 0;
-      state.attempt = Number.isFinite(obj.attempt) ? obj.attempt : 0;
-      state.results = Array.isArray(obj.results) ? obj.results : [];
-      state.score = Number.isFinite(obj.score) ? obj.score : 0;
-      return true;
-    }catch(e){
-      return false;
-    }
-  }
-
-  function reset(keepClass=false){
-    const cls = keepClass ? state.cls : null;
-    state.cls = cls;
-    state.idx = 0;
-    state.attempt = 0;
-    state.results = [];
-    state.score = 0;
+  function resetAll(){
+    const keepNames = { ...state.names };
+    Object.assign(state, {
+      started:false, finished:false, tiebreak:false,
+      names: keepNames,
+      round:1, set:1, turn:0, r1Starter:null,
+      poolText: state.poolText || "",
+      roundTricks: Array.isArray(state.roundTricks) ? state.roundTricks : [],
+      scores:{p1:0,p2:0}, curr:{p1:null,p2:null},
+      history:[], log:[],
+      winner:null, endedReason:"",
+      _justResolvedRound:false, _canFinish:false
+    });
     save();
     updateUI();
   }
 
-  function clampToBounds(){
-    const tricks = currentTricks();
-    if(!state.cls || tricks.length === 0){
-      state.idx = 0; state.attempt = 0; return;
+  function coinTossStart(){
+    pushHistory();
+
+    const n1 = (p1Name.value || "").trim();
+    const n2 = (p2Name.value || "").trim();
+    state.names.p1 = n1 ? n1 : "A";
+    state.names.p2 = n2 ? n2 : "B";
+
+    state.started = true;
+    state.finished = false;
+    state.tiebreak = false;
+
+    state.round = 1;
+    state.set = 1;
+    state.turn = 0;
+    state.curr = { p1:null, p2:null };
+    state.scores = { p1:0, p2:0 };
+    state.log = [];
+    state.winner = null;
+    state.endedReason = "";
+    state._justResolvedRound = false;
+    state._canFinish = false;
+
+    state\.r1Starter = \(Math\.random\(\) < 0\.5\) \? 1 : 2;
+
+    // 技を4つ抽選してR1〜R4に割り当て
+    ensurePoolUI();
+    if(!reshuffleTricks()){
+      // fallback: reset started
+      state.started = false;
+      save();
+      updateUI();
+      return;
     }
-    if(state.idx < 0) state.idx = 0;
-    if(state.idx >= tricks.length) state.idx = tricks.length - 1;
-    if(state.attempt < 0) state.attempt = 0;
-    if(state.attempt > 1) state.attempt = 1;
+
+    const sKey = playerIdToKey(state.r1Starter);
+    addLog("開始", `1Rの先行は『${state.names[sKey]}』`, "コイントス", "info");
+
+    save();
+    updateUI();
   }
 
-  function record(ok){
-    const tricks = currentTricks();
-    if(!state.cls || tricks.length === 0) return;
-    if(state.results.length >= tricks.length * 2) return;
+  function setOutcome(p1Ok, p2Ok){
+    if(p1Ok === true && p2Ok === true){
+      return { pts:{p1:1,p2:1}, decided:true, label:"同点（両者成功）" };
+    }
+    if(p1Ok === true && p2Ok === false){
+      return { pts:{p1:1,p2:0}, decided:true, label:"勝利（A成功 / B失敗）" };
+    }
+    if(p1Ok === false && p2Ok === true){
+      return { pts:{p1:0,p2:1}, decided:true, label:"勝利（B成功 / A失敗）" };
+    }
+    return { pts:{p1:0,p2:0}, decided:false, label:"両者失敗" };
+  }
 
-    state.results.push({ trickIndex: state.idx, attemptIndex: state.attempt, ok: !!ok, at: Date.now() });
-    if(ok) state.score += 1;
+  function resolveRoundEnd(label, pts){
+    state.scores.p1 += pts.p1;
+    state.scores.p2 += pts.p2;
 
-    if(state.attempt === 0){
-      state.attempt = 1;
-    }else{
-      state.attempt = 0;
-      state.idx += 1;
+    const add = [];
+    if(pts.p1) add.push(`${state.names.p1}+1`);
+    if(pts.p2) add.push(`${state.names.p2}+1`);
+    const right = add.length ? add.join(" / ") : "0点";
+
+    addLog(`R${state.round} 結果`, label, right, "roundEnd");
+
+    state._justResolvedRound = true;
+
+    // check early finish
+    const doneRounds = countResolvedRounds();
+    const rem = Math.max(0, 4 - doneRounds);
+
+    const p1 = state.scores.p1;
+    const p2 = state.scores.p2;
+
+    const lead = Math.max(p1,p2);
+    const trail = Math.min(p1,p2);
+    const trailMax = trail + maxPossiblePointsInRemainingRounds(rem);
+
+    if(trailMax < lead){
+      state._canFinish = true;
+      state.endedReason = "逆転の可能性が消えたため";
+      addLog("終了条件", "逆転不可能 → 試合終了できる", "", "info");
+      return;
     }
 
-    clampToBounds();
-    save();
+    if(doneRounds >= 4){
+      if(p1 === p2){
+        state.tiebreak = true;
+        addLog("同点", "4R終了時点で同点 → タイム競技へ", "", "info");
+      }else{
+        state._canFinish = true;
+        state.endedReason = "4ラウンド終了";
+        addLog("終了条件", "4R終了 → 試合終了できる", "", "info");
+      }
+    }
+  }
 
-    if(ok){
-      currentBox.classList.remove("shake");
+  function evaluateSet(){
+    const p1Ok = state.curr.p1;
+    const p2Ok = state.curr.p2;
+    if(p1Ok === null || p2Ok === null) return;
+
+    const out = setOutcome(p1Ok, p2Ok);
+
+    if(out.decided){
+      resolveRoundEnd(out.label, out.pts);
+      // prepare for next (not auto)
+      state.curr = { p1:null, p2:null };
+      state.turn = 0;
+      state.set = 1; // keep UI tidy; round is still the same until nextRound
+      return;
+    }
+
+    // both fail
+    if(state.set === 1){
+      state.set = 2;
+      state.turn = 0;
+      state.curr = { p1:null, p2:null };
+      addLog(`R${state.round}`, "1セット目 両者失敗 → 2セット目へ", "", "info");
     }else{
+      resolveRoundEnd("2セットとも両者失敗 → 0点", {p1:0,p2:0});
+      state.curr = { p1:null, p2:null };
+      state.turn = 0;
+      state.set = 1;
+    }
+  }
+
+  function recordResult(ok){
+    if(!state.started || state.finished || state.tiebreak) return;
+
+    pushHistory();
+
+    state._justResolvedRound = false;
+    state._canFinish = false;
+
+    const key = turnPlayerKey();
+    if(!key) return;
+
+    state.curr[key] = !!ok;
+
+    const who = state.names[key];
+    const role = roleForPlayerKey(key);
+    const trick = (state.roundTricks && state.roundTricks[state.round-1]) ? state.roundTricks[state.round-1] : "（未抽選）";
+    addLog(`R${state.round} S${state.set}`, `${role}：${who} → ${ok ? "成功" : "失敗"}`, trick, "attempt");
+
+    if(state.turn === 0){
+      state.turn = 1;
+    }else{
+      evaluateSet();
+    }
+
+    save();
+    updateUI();
+
+    currentBox.classList.remove("pop");
+    void currentBox.offsetWidth;
+    currentBox.classList.add("pop");
+    if(!ok){
       currentBox.classList.remove("shake");
       void currentBox.offsetWidth;
       currentBox.classList.add("shake");
     }
+  }
 
+  function nextRound(){
+    if(!state.started || state.finished || state.tiebreak) return;
+    if(!state._justResolvedRound) return;
+
+    pushHistory();
+
+    state.round += 1;
+    state.set = 1;
+    state.turn = 0;
+    state.curr = { p1:null, p2:null };
+
+    state._justResolvedRound = false;
+    state._canFinish = false;
+
+    addLog("次へ", `R${state.round} を開始（先行/後攻は入れ替え）`, "", "info");
+
+    save();
     updateUI();
   }
 
-  function undo(){
-    if(state.results.length === 0) return;
-    const last = state.results.pop();
-    if(last.ok) state.score -= 1;
+  function finishMatch(winnerKey=null, reason=""){
+    pushHistory();
 
-    state.idx = last.trickIndex;
-    state.attempt = last.attemptIndex;
-    clampToBounds();
+    state.finished = true;
+    state._canFinish = false;
+
+    if(winnerKey){
+      state.winner = winnerKey;
+      state.endedReason = reason || "タイム競技";
+    }else{
+      if(state.scores.p1 > state.scores.p2) state.winner = "p1";
+      else if(state.scores.p2 > state.scores.p1) state.winner = "p2";
+      else state.winner = null;
+    }
+
+    const w = state.winner ? state.names[state.winner] : "同点";
+    addLog("試合終了", `勝者：${w}`, `${state.scores.p1}-${state.scores.p2}`, "final");
+
     save();
     updateUI();
   }
 
   function exportText(){
-    const tricks = currentTricks();
-    if(!state.cls || tricks.length === 0){
-      alert("クラス未選択、または技が未設定です。");
-      return;
-    }
-
     const lines = [];
-    lines.push(`クラス：${state.cls}`);
-    lines.push(`合計点：${state.score}`);
+    lines.push("けん玉 本戦（1対1・4R）  結果");
+    lines.push(`選手A：${state.names.p1}`);
+    lines.push(`選手B：${state.names.p2}`);
     lines.push("");
-
-    for(let i=0;i<tricks.length;i++){
-      const a1 = state.results.find(r => r.trickIndex===i && r.attemptIndex===0);
-      const a2 = state.results.find(r => r.trickIndex===i && r.attemptIndex===1);
-      const s = (a1?.ok?1:0) + (a2?.ok?1:0);
-      const mark = (x) => x==null ? "未" : (x ? "○" : "×");
-      lines.push(`${String(i+1).padStart(2,"0")}. ${tricks[i]}`);
-      lines.push(`  1回目:${mark(a1?.ok)}  2回目:${mark(a2?.ok)}  点:${s}/2`);
+    lines.push(`スコア：${state.scores.p1} - ${state.scores.p2}`);
+    if(state.r1Starter){
+      const sKey = playerIdToKey(state.r1Starter);
+      lines.push(`1R先行：${state.names[sKey]}`);
     }
+    const curTrick = (state.roundTricks && state.roundTricks[state.round-1]) ? state.roundTricks[state.round-1] : "";
+    trickNote.textContent = curTrick ? `技：『${curTrick}』` : "";
 
+    if(state.finished){
+      const w = state.winner ? state.names[state.winner] : "同点";
+      lines.push(`結果：${w}`);
+      if(state.endedReason) lines.push(`終了理由：${state.endedReason}`);
+    }else if(state.tiebreak){
+      lines.push("状態：タイム競技待ち");
+    }else if(state.started){
+      lines.push(`進行：R${state.round} / S${state.set}`);
+    }
+    lines.push("");
+    lines.push("本戦の技（R1〜R4）");
+    (state.roundTricks||[]).forEach((t,i)=> lines.push(`R${i+1}: ${t}`));
+    lines.push("");
+    lines.push("ログ（新しい順）");
+    lines.push("-----");
+    state.log.forEach(e => {
+      const r = e.right ? ` [${e.right}]` : "";
+      lines.push(`${e.title}: ${e.desc}${r}`);
+    });
     const out = lines.join("\n");
+
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(out).then(() => {
-        alert("結果をクリップボードにコピーしました。");
-      }).catch(() => {
-        prompt("結果（コピーして使ってください）", out);
-      });
+      navigator.clipboard.writeText(out).then(() => alert("結果をクリップボードにコピーいたしました。"))
+        .catch(() => prompt("結果（コピーして使ってください）", out));
     }else{
       prompt("結果（コピーして使ってください）", out);
     }
   }
 
-  btnSuccess.addEventListener("click", () => record(true));
-  btnFail.addEventListener("click", () => record(false));
-  btnUndo.addEventListener("click", () => undo());
+  function updateUI(){
+    p1Label.textContent = state.names.p1;
+    p2Label.textContent = state.names.p2;
 
-  btnReset.addEventListener("click", () => {
-    const msg = "現在の記録をリセットします。よろしいですか？";
-    if(confirm(msg)){
-      reset(true);
+    p1ScoreEl.textContent = String(state.scores.p1);
+    p2ScoreEl.textContent = String(state.scores.p2);
+
+    p1Role.textContent = roleForPlayerKey("p1");
+    p2Role.textContent = roleForPlayerKey("p2");
+
+    const doneRounds = countResolvedRounds();
+    remainRoundsEl.textContent = String(Math.max(0, 4 - doneRounds));
+    comebackEl.textContent = comebackPossible() ? "あり" : "なし";
+    barFill.style.width = `${Math.round((doneRounds/4)*100)}%`;
+
+    if(!state.started){
+      headline.textContent = "開始を押してください";
+      roundText.textContent = "-";
+      setText.textContent = "-";
+      turnText.textContent = "-";
+      orderNote.textContent = "";
+      trickNote.textContent = "";
+      tiebreakBox.style.display = "none";
+      ensurePoolUI();
+      renderPicked();
+      logEl.innerHTML = `<div class="muted">ここに試合ログが表示されます。名前は未入力でも開始できます。</div>`;
+      setButtons();
+      return;
     }
-  });
 
+    const starter = currentStarterId();
+    if(starter){
+      const sKey = playerIdToKey(starter);
+      const fKey = playerIdToKey(otherId(starter));
+      orderNote.textContent = `R${state.round}の先行：『${state.names[sKey]}』 ／ 後攻：『${state.names[fKey]}』`;
+    }else{
+      orderNote.textContent = "";
+      trickNote.textContent = "";
+    }
+
+    ensurePoolUI();
+    // keep state.poolText synced when user edits
+    // (not autosaving on every keypress to avoid noise; reshuffle button will save)
+    renderPicked();
+
+    roundText.textContent = `R${state.round}/4`;
+    setText.textContent = `S${state.set}/2`;
+    turnText.textContent = (state.turn===0) ? "先行" : "後攻";
+
+    const curTrick = (state.roundTricks && state.roundTricks[state.round-1]) ? state.roundTricks[state.round-1] : "";
+    trickNote.textContent = curTrick ? `技：『${curTrick}』` : "";
+
+    if(state.finished){
+      const w = state.winner ? state.names[state.winner] : "同点";
+      headline.textContent = `終了：勝者『${w}』`;
+      tiebreakBox.style.display = "none";
+    }else if(state.tiebreak){
+      headline.textContent = "タイム競技で勝者を決める";
+      tiebreakBox.style.display = "block";
+    }else{
+      const key = turnPlayerKey();
+      const who = key ? state.names[key] : "-";
+      const role = key ? roleForPlayerKey(key) : "-";
+      headline.textContent = `${who} の番（${role}）`;
+      tiebreakBox.style.display = "none";
+    }
+
+    if(state.log.length === 0){
+      logEl.innerHTML = `<div class="muted">ログはまだありません。</div>`;
+    }else{
+      logEl.innerHTML = "";
+      state.log.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "item";
+        const left = document.createElement("div");
+        left.className = "left";
+        left.innerHTML = `<div class="title">${escapeHtml(e.title)}</div><div class="desc">${escapeHtml(e.desc)}</div>`;
+        const right = document.createElement("div");
+        right.className = "right";
+        right.innerHTML = e.right ? `<span class="badge"><strong>${escapeHtml(e.right)}</strong></span>` : "";
+        div.appendChild(left);
+        div.appendChild(right);
+        logEl.appendChild(div);
+      });
+    }
+
+    setButtons();
+  }
+
+  btnStart.addEventListener("click", () => {
+    // 既に試合中の場合は、新規開始に切り替えます
+    if(state.started && !state.finished){
+      const ok = confirm("現在の試合をリセットして、新しく開始します。よろしいですか？");
+      if(!ok) return;
+      resetAll();
+    }
+    coinTossStart();
+  });
+  btnSuccess.addEventListener("click", () => recordResult(true));
+  btnFail.addEventListener("click", () => recordResult(false));
+  btnNext.addEventListener("click", nextRound);
+  btnFinish.addEventListener("click", () => {
+    const msg = "試合を終了して結果を確定します。よろしいですか？";
+    if(confirm(msg)) finishMatch(null, state.endedReason || "確定");
+  });
+  btnUndo.addEventListener("click", undo);
   btnExport.addEventListener("click", exportText);
 
-  classSel.addEventListener("change", () => {
-    state.cls = classSel.value;
-    reset(true);
-    save();
-    updateUI();
+  // 技プールの変更は「引き直す」で反映
+  btnReshuffle.addEventListener("click", () => {
+    if(reshuffleTricks()){
+      updateUI();
+    }
+  });
+  btnReset.addEventListener("click", () => {
+    const msg = "全リセットします。よろしいですか？";
+    if(confirm(msg)) resetAll();
   });
 
-  rebuildClassOptions();
+  btnTBP1.addEventListener("click", () => finishMatch("p1", "タイム競技"));
+  btnTBP2.addEventListener("click", () => finishMatch("p2", "タイム競技"));
 
   const loaded = load();
-  if(loaded && state.cls && TRICKS[state.cls]){
-    classSel.value = state.cls;
-    clampToBounds();
-    updateUI();
-  }else{
-    state.cls = classSel.value;
-    reset(true);
-    updateUI();
-  }
+  if(!loaded) save();
+  ensurePoolUI();
+  renderPicked();
+  p1Name.value = state.names.p1;
+  p2Name.value = state.names.p2;
+  updateUI();
 })();
 </script>
 </body>
